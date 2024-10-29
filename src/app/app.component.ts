@@ -7,6 +7,7 @@ import { SignupPageComponent } from './pages/account/signup-page/signup-page.com
 import { PetPagesComponent } from './pages/account/pet-pages/pet-pages.component';
 import { ProductsPageComponent } from './pages/store/products-page/products-page.component';
 import { CartPageComponent } from './pages/store/cart-page/cart-page.component';
+import { FramePageComponent } from './pages/master/frame.page';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,9 @@ import { CartPageComponent } from './pages/store/cart-page/cart-page.component';
     PetPagesComponent,
     ProductsPageComponent,
     CartPageComponent,
+    FramePageComponent,
   ],
-  templateUrl: './app.component.html',
+  template: '<router-outlet></router-outlet>',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
