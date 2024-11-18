@@ -7,9 +7,15 @@ import { Product } from '../models/product.model';
   providedIn: 'root',
 })
 export class DataService {
+  public url = 'http://localhost:3000/v1';
+
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<any[]> {
-    return this.http.get<Product[]>('http://localhost:3000/v1/products');
+    return this.http.get<Product[]>(`${this.url}/products`);
+  }
+
+  authenticate(data: any) {
+    return this.http.post(`${this.url}/accounts/authenticate`, data);
   }
 }
