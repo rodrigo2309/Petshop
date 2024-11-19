@@ -7,11 +7,12 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DataService } from '../../../services/data.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, NgClass],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent implements OnInit {
