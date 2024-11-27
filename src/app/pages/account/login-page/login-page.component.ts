@@ -6,12 +6,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DataService } from '../../../services/data.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { LoadingComponent } from '../../../components/shared/loading/loading.component';
 import { MaskDirective } from '../../../directives/mask.directive';
 import { CustomValidator } from '../../../validators/custom.validator';
+import { Security } from '../../../utils/security.util';
 
 @Component({
   selector: 'app-login-page',
@@ -30,7 +31,11 @@ export class LoginPageComponent implements OnInit {
   public form: FormGroup;
   public busy = true;
 
-  constructor(private service: DataService, private fb: FormBuilder) {
+  constructor(
+    private service: DataService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     this.form = this.fb.group({
       username: [
         '',
@@ -54,35 +59,39 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    const token = localStorage.getItem('petshop.token');
+    const token = Security.getToken();
     if (token) {
       this.busy = true;
-      this.service.refreshToken().subscribe({
-        next: (data: any) => {
-          localStorage.setItem('petshop.token', data.token);
+      this.service.refreshToken().subscribe(
+        (data: any) => {
           this.busy = false;
+          this.setUser(data.customer, data.token);
         },
-        error: (err: any) => {
+        (err) => {
           localStorage.clear();
           this.busy = false;
-        },
-        complete: () => {},
-      });
-    } else {
-      this.busy = false;
+        }
+      );
     }
   }
 
   submit() {
+    this.busy = true;
+
     this.service.authenticate(this.form.value).subscribe(
       (data: any) => {
-        localStorage.setItem('petshop.token', data.token);
         this.busy = false;
+        this.setUser(data.customer, data.token);
       },
       (err) => {
         console.log(err);
         this.busy = false;
       }
     );
+  }
+
+  setUser(user, token) {
+    Security.set(user, token);
+    this.router.navigate(['/']);
   }
 }
