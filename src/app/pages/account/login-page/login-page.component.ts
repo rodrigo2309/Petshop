@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -9,11 +10,14 @@ import { RouterModule } from '@angular/router';
 import { DataService } from '../../../services/data.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { LoadingComponent } from '../../../components/shared/loading/loading.component';
+import { MaskDirective } from '../../../directives/mask.directive';
+import { CustomValidator } from '../../../validators/custom.validator';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
   imports: [
+    MaskDirective,
     RouterModule,
     ReactiveFormsModule,
     NgClass,
@@ -31,9 +35,11 @@ export class LoginPageComponent implements OnInit {
       username: [
         '',
         Validators.compose([
-          Validators.minLength(11),
-          Validators.maxLength(11),
+          Validators.minLength(14),
+          Validators.maxLength(14),
           Validators.required,
+          CustomValidator.isCpf(),
+          CustomValidator.EmailValidator(),
         ]),
       ],
       password: [
@@ -62,6 +68,8 @@ export class LoginPageComponent implements OnInit {
         },
         complete: () => {},
       });
+    } else {
+      this.busy = false;
     }
   }
 
