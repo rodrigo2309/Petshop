@@ -44,7 +44,6 @@ export class LoginPageComponent implements OnInit {
           Validators.maxLength(14),
           Validators.required,
           CustomValidator.isCpf(),
-          CustomValidator.EmailValidator(),
         ]),
       ],
       password: [
@@ -72,6 +71,8 @@ export class LoginPageComponent implements OnInit {
           this.busy = false;
         }
       );
+    } else {
+      this.busy = false;
     }
   }
 

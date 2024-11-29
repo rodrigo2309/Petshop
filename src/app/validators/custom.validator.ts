@@ -4,7 +4,7 @@ export class CustomValidator {
   constructor() {}
 
   static isCpf() {
-    return (control: AbstractControl): Validators | null => {
+    return (control: AbstractControl): Validators => {
       const cpf = control.value.replace(/[^0-9]*/g, '');
       if (cpf) {
         let numbers;
@@ -58,16 +58,14 @@ export class CustomValidator {
     };
   }
 
-  static EmailValidator() {
+  static EmailValidator(control: FormControl) {
     // tslint:disable-next-line:max-line-length
-    return (control: AbstractControl): Validators | null => {
-      const re =
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!re.test(control.value)) {
-        return { 'E-mail inválido': true };
-      }
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(control.value)) {
+      return { 'E-mail inválido': true };
+    }
 
-      return null;
-    };
+    return null;
   }
 }
