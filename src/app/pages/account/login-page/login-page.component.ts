@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -29,7 +28,7 @@ import { Security } from '../../../utils/security.util';
 })
 export class LoginPageComponent implements OnInit {
   public form: FormGroup;
-  public busy = true;
+  public busy = false;
 
   constructor(
     private service: DataService,
@@ -71,8 +70,6 @@ export class LoginPageComponent implements OnInit {
           this.busy = false;
         }
       );
-    } else {
-      this.busy = false;
     }
   }
 
