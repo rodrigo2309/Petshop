@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
+  FormBuilder,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,12 +13,13 @@ import { LoadingComponent } from '../../../components/shared/loading/loading.com
 import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-signup-page',
+  selector: 'app-profile-page',
   standalone: true,
-  imports: [LoadingComponent, NgClass, RouterLink, ReactiveFormsModule, NgIf],
-  templateUrl: './signup-page.component.html',
+  imports: [LoadingComponent, NgClass, ReactiveFormsModule, NgIf],
+  templateUrl: './profile-page.component.html',
+  styleUrl: './profile-page.component.css',
 })
-export class SignupPageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit {
   public form: FormGroup;
   public busy = false;
 
@@ -37,15 +38,7 @@ export class SignupPageComponent implements OnInit {
           Validators.required,
         ]),
       ],
-      document: [
-        '',
-        Validators.compose([
-          Validators.minLength(14),
-          Validators.maxLength(14),
-          Validators.required,
-          CustomValidator.isCpf(),
-        ]),
-      ],
+      document: [{ value: '', disabled: true }],
       email: [
         '',
         Validators.compose([
@@ -55,26 +48,31 @@ export class SignupPageComponent implements OnInit {
           CustomValidator.EmailValidator,
         ]),
       ],
-      password: [
-        '',
-        Validators.compose([
-          Validators.minLength(6),
-          Validators.maxLength(20),
-          Validators.required,
-        ]),
-      ],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.busy = true;
+    this.service.getProfile().subscribe(
+      (data: any) => {
+        this.busy = false;
+        this.form.controls['name'].setValue(data.name);
+        this.form.controls['document'].setValue(data.document);
+        this.form.controls['email'].setValue(data.email);
+      },
+      (err) => {
+        console.log(err);
+        this.busy = false;
+      }
+    );
+  }
 
   submit() {
     this.busy = true;
-    this.service.create(this.form.value).subscribe(
+    this.service.updateProfile(this.form.value).subscribe(
       (data: any) => {
         this.busy = false;
-        this.toastr.success(data.message, 'Bem-vindo!');
-        this.router.navigate(['/login']);
+        this.toastr.success(data.message, 'Atualização Completa!');
       },
       (err) => {
         console.log(err);

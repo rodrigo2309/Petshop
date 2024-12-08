@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { DataService } from '../../../services/data.service';
-import { CommonModule, NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../../components/shared/loading/loading.component';
 import { MaskDirective } from '../../../directives/mask.directive';
 import { CustomValidator } from '../../../validators/custom.validator';
@@ -22,7 +22,7 @@ import { Security } from '../../../utils/security.util';
     ReactiveFormsModule,
     NgClass,
     LoadingComponent,
-    CommonModule,
+    NgIf,
   ],
   templateUrl: './login-page.component.html',
 })

@@ -24,7 +24,11 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css", "src/assets/css/uikit.min.css"],
+            "styles": [
+              "src/styles.css",
+              "src/assets/css/uikit.min.css",
+              "node_modules/ngx-toastr/toastr.css"
+            ],
             "scripts": [
               "src/assets/js/uikit.min.js",
               "src/assets/js/uikit-icons.min.js"
