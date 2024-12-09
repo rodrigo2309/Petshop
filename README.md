@@ -1,3 +1,3 @@
 # Petshop
 
-Projeto Petshop com loja feito em Angular 18
+Site petshop com loja feito em Angular 18
